@@ -9,7 +9,7 @@
   racket/string
   racket/format)
 
-(provide pvector pvector?)
+(provide pvector pvector? make-pvector build-pvector)
 
 ;; ---------------------------------------------------------------------------------------------------
 
@@ -42,6 +42,39 @@
      (fprintf out "#pv[~a]" (string-join (sequence->list (map ~a pv)))))])
 (struct pvector-tail (size children) #:transparent)
 (struct pvector-node (height children) #:transparent)
+
+;; ---------------------------------------------------------------------------------------------------
+
+;; make-pvector : Natural a -> (PVectorof a)
+;; creates a pvector of length n, with every position filled with v
+(define (make-pvector n v)
+  (cond
+    ; if the whole thing can fit in the tail, just do that
+    [(<= n branching-factor)
+     (pvector-head n #f (make-pvector-tail n v))]
+    [else
+     ; otherwise, build up a new pvector
+     (let loop ([height 0]
+                [node (make-pvector-node 0 v)]
+                [node-size branching-factor])
+       (cond
+         ; if the remainder can fit in the tail, insert it and return
+         [(<= n (+ node-size branching-factor))
+          (define tail-size (add1 (modulo (sub1 (- n node-size)) branching-factor)))
+          (pvector-head n node (make-pvector-tail tail-size v))]
+         ; otherwise, create a new node to hold the contents
+         [else
+          (define new-height (add1 height))
+          (define new-node (make-pvector-node new-height node))
+          (define new-size (* node-size branching-factor))
+          (loop new-height new-node new-size)]))]))
+
+;; build-pvector : Natural (Natural -> a) -> (PVectorof a)
+;; creates a pvector of length n, with every position i filled with (proc i)
+(define (build-pvector n proc)
+  (for/fold ([vec pvector-empty])
+            ([i (in-range n)])
+    (pvector-conj vec (proc i))))
 
 ;; ---------------------------------------------------------------------------------------------------
 

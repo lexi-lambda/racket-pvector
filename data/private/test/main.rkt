@@ -29,3 +29,20 @@
   (pvector 1 2 3
            2 4 6
            3 6 9)))
+
+(test-case
+ "make-pvector"
+  (check-equal? (make-pvector 0 'a) (pvector))
+  (check-equal? (make-pvector 5 'a) (pvector 'a 'a 'a 'a 'a))
+  (check-equal? (conj (make-pvector 5 'a) 'b) (pvector 'a 'a 'a 'a 'a 'b))
+  (for ([n (in-range 300)])
+    (define v (make-pvector n 'a))
+    (check-equal? (length v) n)
+    (for ([i (in-range n)])
+      (check-equal? (nth v i) 'a)
+      (check-equal? (nth (set-nth v i 'b) i) 'b)
+      (unless (= i 0)
+        (check-equal? (nth (set-nth v (sub1 i) 'b) i) 'a))
+      (unless (= i (sub1 n))
+        (check-equal? (nth (set-nth v (add1 i) 'b) i) 'a)))
+    (check-equal? (nth (conj v 'b) n) 'b)))
