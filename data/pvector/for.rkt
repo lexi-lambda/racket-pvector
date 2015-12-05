@@ -1,7 +1,7 @@
 #lang racket/base
 
-(require alexis/collection
-         alexis/pvector/base
+(require data/collection
+         data/pvector/base
          (for-syntax racket/base))
 
 (provide for/pvector for*/pvector)

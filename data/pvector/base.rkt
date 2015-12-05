@@ -3,7 +3,7 @@
 (require
   racket/match
   racket/vector
-  alexis/collection
+  data/collection
   racket/generic
   racket/contract
   racket/string

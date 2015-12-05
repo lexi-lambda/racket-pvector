@@ -2,8 +2,8 @@
 
 (require
   rackunit
-  alexis/collection
-  alexis/pvector)
+  data/collection
+  data/pvector)
 
 (test-case
  "Basic vector operations"

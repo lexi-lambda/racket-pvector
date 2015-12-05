@@ -5,17 +5,17 @@
    (for-label (subtract-in
                (combine-in
                 racket/base)
-               alexis/collection)
-              alexis/collection
+               data/collection)
+              data/collection
               racket/contract
-              alexis/pvector)
+              data/pvector)
    scribble/eval)
 
 @(define pvector-evaluator
   (make-eval-factory
    #:lang 'racket
-   '(alexis/collection
-     alexis/pvector)))
+   '(data/collection
+     data/pvector)))
 
 @(define-syntax-rule (pvector-interaction . body)
    (interaction #:eval (pvector-evaluator) . body))
@@ -25,7 +25,7 @@
 
 @title{Persistent Vectors}
 
-@defmodule[alexis/pvector]
+@defmodule[data/pvector]
 
 This provides an implementation of @deftech[#:key "persistent vector"]{persistent, immutable vectors}.
 They are implemented as 32-way bitmapped tries with a tail to provide truly constant time appends to
@@ -33,7 +33,7 @@ the end of the vector. Data is shared between a vector and its subsequent functi
 
 The @tech{persistent vectors} provided by this module implement the @racket[gen:equal+hash] generic
 interface, so they may be used as keys, and @racket[equal?] will perform deep comparisons.
-Additionally, they implement three interfaces from @racketmodname[alexis/collection],
+Additionally, they implement three interfaces from @racketmodname[data/collection],
 @racket[gen:countable], @racket[gen:collection], and @racket[gen:sequence], which contain the
 interface for interacting with them.
 
@@ -44,7 +44,7 @@ interface for interacting with them.
 @(pvector-interaction
   (pvector 1 2 3 4))
 
-Afterwards, they can be interacted with via the functions from @racketmodname[alexis/collection].
+Afterwards, they can be interacted with via the functions from @racketmodname[data/collection].
 
 @(pvector-interaction
   (conj (pvector 1 2 3 4) 5))
@@ -57,8 +57,8 @@ other sequence.
 
 @section{Native API Reference}
 
-The interface provided by @racketmodname[alexis/pvector] is small. Most of the functions for
-manipulating @tech{persistent vectors} reside in @racketmodname[alexis/collection]. However, some
+The interface provided by @racketmodname[data/pvector] is small. Most of the functions for
+manipulating @tech{persistent vectors} reside in @racketmodname[data/collection]. However, some
 functions are specific to persistent vectors.
 
 @defproc[(pvector? [v any/c]) boolean?]{

@@ -2,14 +2,13 @@
 
 (define collection 'multi)
 
-(define name "alexis-pvector")
-(define version "0.1.0")
+(define name "pvector")
+(define version "1.0")
 
 (define deps
   '("base"
-    "rackunit-lib"
-    "alexis-collections"))
+    "collections"
+    "rackunit-lib"))
 (define build-deps
-  '("cover"
-    "scribble-lib"
-    "racket-doc"))
+  '("racket-doc"
+    "scribble-lib"))
