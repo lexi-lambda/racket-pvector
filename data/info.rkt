@@ -1,3 +1,3 @@
 #lang info
 
-(define scribblings '(["scribblings/pvector.scrbl" () ("Data Libraries")]))
+(define scribblings '(("scribblings/pvector.scrbl")))
